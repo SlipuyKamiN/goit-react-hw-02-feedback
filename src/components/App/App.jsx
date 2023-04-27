@@ -1,8 +1,8 @@
 import { AppWrapper } from './App.styled';
-import { AppTitle, AppSubTitle, NoFeedback } from './AppTitles.styled';
-import { FeedbackButtonsList } from 'components/FeedbackButtons/FeedbackButtonsList';
-import { StatisticList } from 'components/Statistics/StatisticsList';
+import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
+import { Statistics } from 'components/Statistics/Statistics';
 import { Component } from 'react';
+import { Section } from 'components/Section/Section';
 
 export class App extends Component {
   state = {
@@ -11,7 +11,7 @@ export class App extends Component {
     bad: 0,
   };
 
-  updateState = event => {
+  onLeaveFeedback = event => {
     const feedbackToUpdate = event.target.innerText.toLowerCase();
 
     this.setState(state => {
@@ -33,25 +33,34 @@ export class App extends Component {
   };
 
   render() {
+    const { good, neutral, bad } = this.state;
+
     return (
       <AppWrapper>
-        <AppTitle>Please leave your feedback below</AppTitle>
-        <FeedbackButtonsList
-          feedbackTypes={this.state}
-          updateState={this.updateState}
+        <Section
+          title="Please leave your feedback below"
+          children={
+            <FeedbackOptions
+              options={this.state}
+              onLeaveFeedback={this.onLeaveFeedback}
+            />
+          }
         />
-        <AppSubTitle>Statistics</AppSubTitle>
-        {this.countTotalFeedback() ? (
-          <StatisticList
-            feedbackData={this.state}
-            totalCounter={this.countTotalFeedback}
-            positiveFeedbackPercentageCounter={
-              this.countPositiveFeedbackPercentage
-            }
-          />
-        ) : (
-          <NoFeedback>No feedback given</NoFeedback>
-        )}
+        <Section
+          title="Statistics"
+          children={
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              feedbackData={this.state}
+              totalCounter={this.countTotalFeedback}
+              positiveFeedbackPercentageCounter={
+                this.countPositiveFeedbackPercentage
+              }
+            />
+          }
+        />
       </AppWrapper>
     );
   }
