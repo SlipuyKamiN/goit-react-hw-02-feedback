@@ -21,9 +21,6 @@ export class App extends Component {
     });
   };
 
-  countTotalFeedback = () => {
-    return Object.values(this.state).reduce((total, value) => total + value);
-  };
   countPositiveFeedbackPercentage = () => {
     const total = Object.values(this.state).reduce(
       (total, value) => total + value
@@ -33,7 +30,7 @@ export class App extends Component {
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
+    // const { good, neutral, bad } = this.state;
 
     return (
       <AppWrapper>
@@ -50,11 +47,10 @@ export class App extends Component {
           title="Statistics"
           children={
             <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
+              // good={good}
+              // neutral={neutral}
+              // bad={bad}
               feedbackData={this.state}
-              totalCounter={this.countTotalFeedback}
               positiveFeedbackPercentageCounter={
                 this.countPositiveFeedbackPercentage
               }

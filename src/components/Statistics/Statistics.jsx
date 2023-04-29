@@ -11,12 +11,17 @@ export const Statistics = ({
   // neutral,
   // bad,
   feedbackData,
-  totalCounter,
   positiveFeedbackPercentageCounter,
 }) => {
+  const countTotalFeedback = () => {
+    return Object.values(feedbackData).reduce((total, value) => total + value);
+  };
+
+  const total = countTotalFeedback();
+
   feedbackData = Object.entries(feedbackData);
 
-  return totalCounter() ? (
+  return total ? (
     <StatsList>
       {/* <StatsListItem>
       good: <StatsFeedbackCounter>{good}</StatsFeedbackCounter>
@@ -33,7 +38,7 @@ export const Statistics = ({
         </StatsListItem>
       ))}
       <StatsListItem>
-        Total: <StatsFeedbackCounter>{totalCounter()}</StatsFeedbackCounter>
+        Total: <StatsFeedbackCounter>{total}</StatsFeedbackCounter>
       </StatsListItem>
       <StatsListItem>
         Positive feedback:{' '}
@@ -48,10 +53,9 @@ export const Statistics = ({
 };
 
 Statistics.propTypes = {
-  good: PropTypes.number.isRequired,
-  neutral: PropTypes.number.isRequired,
-  bad: PropTypes.number.isRequired,
+  // good: PropTypes.number.isRequired,
+  // neutral: PropTypes.number.isRequired,
+  // bad: PropTypes.number.isRequired,
   feedbackData: PropTypes.object.isRequired,
-  totalCounter: PropTypes.func.isRequired,
   positiveFeedbackPercentageCounter: PropTypes.func.isRequired,
 };
