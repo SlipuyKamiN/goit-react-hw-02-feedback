@@ -3,6 +3,7 @@ import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
 import { Statistics } from 'components/Statistics/Statistics';
 import { Component } from 'react';
 import { Section } from 'components/Section/Section';
+import { Notification } from 'components/Notification/Notification';
 
 export class App extends Component {
   state = {
@@ -21,6 +22,10 @@ export class App extends Component {
     });
   };
 
+  countTotalFeedback = () => {
+    return Object.values(this.state).reduce((total, value) => total + value);
+  };
+
   countPositiveFeedbackPercentage = () => {
     const total = Object.values(this.state).reduce(
       (total, value) => total + value
@@ -30,15 +35,13 @@ export class App extends Component {
   };
 
   render() {
-    // const { good, neutral, bad } = this.state;
-
     return (
       <AppWrapper>
         <Section
           title="Please leave your feedback below"
           children={
             <FeedbackOptions
-              options={this.state}
+              options={Object.keys(this.state)}
               onLeaveFeedback={this.onLeaveFeedback}
             />
           }
@@ -46,15 +49,17 @@ export class App extends Component {
         <Section
           title="Statistics"
           children={
-            <Statistics
-              // good={good}
-              // neutral={neutral}
-              // bad={bad}
-              feedbackData={this.state}
-              positiveFeedbackPercentageCounter={
-                this.countPositiveFeedbackPercentage
-              }
-            />
+            this.countTotalFeedback() ? (
+              <Statistics
+                feedbackData={Object.entries(this.state)}
+                total={this.countTotalFeedback()}
+                positiveFeedbackPercentageCounter={
+                  this.countPositiveFeedbackPercentage
+                }
+              />
+            ) : (
+              <Notification message="No feedback given" />
+            )
           }
         />
       </AppWrapper>

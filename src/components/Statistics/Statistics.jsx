@@ -3,35 +3,15 @@ import {
   StatsListItem,
   StatsFeedbackCounter,
 } from './Statistics.styled';
-import { Notification } from 'components/Notification/Notification';
 import PropTypes from 'prop-types';
 
 export const Statistics = ({
-  // good,
-  // neutral,
-  // bad,
   feedbackData,
+  total,
   positiveFeedbackPercentageCounter,
 }) => {
-  const countTotalFeedback = () => {
-    return Object.values(feedbackData).reduce((total, value) => total + value);
-  };
-
-  const total = countTotalFeedback();
-
-  feedbackData = Object.entries(feedbackData);
-
-  return total ? (
+  return (
     <StatsList>
-      {/* <StatsListItem>
-      good: <StatsFeedbackCounter>{good}</StatsFeedbackCounter>
-    </StatsListItem>
-    <StatsListItem>
-      neutral: <StatsFeedbackCounter>{neutral}</StatsFeedbackCounter>
-    </StatsListItem>
-    <StatsListItem>
-      bad: <StatsFeedbackCounter>{bad}</StatsFeedbackCounter>
-    </StatsListItem> */}
       {feedbackData.map(item => (
         <StatsListItem key={item[0]}>
           {item[0]}: <StatsFeedbackCounter>{item[1]}</StatsFeedbackCounter>
@@ -47,15 +27,10 @@ export const Statistics = ({
         </StatsFeedbackCounter>
       </StatsListItem>
     </StatsList>
-  ) : (
-    <Notification message="No feedback given" />
   );
 };
 
 Statistics.propTypes = {
-  // good: PropTypes.number.isRequired,
-  // neutral: PropTypes.number.isRequired,
-  // bad: PropTypes.number.isRequired,
-  feedbackData: PropTypes.object.isRequired,
+  feedbackData: PropTypes.array.isRequired,
   positiveFeedbackPercentageCounter: PropTypes.func.isRequired,
 };
